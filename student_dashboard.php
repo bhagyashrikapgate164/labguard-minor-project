@@ -174,10 +174,10 @@ if ($res = $conn->query("SELECT COUNT(*) FROM problems WHERE student_id=".(int)$
 						</td>
 						 <td><?= htmlspecialchars($r['created_at']) ?></td>
 
-						echo "<td>
+						<td>
     <a class='btn btn-edit' href='edit_report.php?id=<?php echo $row['id']; ?>'>Edit</a>
     <a class='btn btn-delete' href='delete_report.php?id=<?php echo $row['id']; ?>'>Delete</a>
-                         </td>";
+                         </td>
 
 					</tr>
 				<?php endforeach; ?>
