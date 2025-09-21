@@ -8,14 +8,16 @@ require_once __DIR__ . '/includes/auth.php';
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>LabGuard - Home</title>
 	<link rel="stylesheet" href="assets/css/style.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+	
 </head>
-<body style="background-color: #7c3aed;">
+<body style="background-color: #f5f9f9ff;">
 	<?php render_navbar(); ?>
 	<div class="container">
 		<div class="card" style="padding:28px;">
 			<div class="hero" style="grid-template-columns:1fr;">
 				<div>
-					<h2>Keep Labs Safe and Functional</h2>
+					<h2>Keep Labs Safe and Functional</h2><hr>
 					<p>Report issues quickly, verify efficiently, and resolve faster.</p>
 					<div style="display:flex; gap:12px; flex-wrap:wrap;">
 						<a class="btn" href="login_student.php">Student Login</a>
@@ -27,12 +29,12 @@ require_once __DIR__ . '/includes/auth.php';
 
 		<div class="grid">
 			<div class="card">
-				<h3>For Students</h3>
+				<h3><i class="fas fa-user-graduate"></i> For Students :-</h3><hr>
 				<p class="help">Submit equipment issues, damage, or missing items with an optional photo.</p>
 				<a class="btn" href="login_student.php">Continue as Student</a>
 			</div>
 			<div class="card">
-				<h3>For Admins</h3>
+				<h3><i class="fas fa-user-cog"></i> For Admins :-</h3><hr>
 				<p class="help">Review, verify, and track resolution of all reported problems.</p>
 				<a class="btn secondary" href="login_admin.php">Continue as Admin</a>
 			</div>

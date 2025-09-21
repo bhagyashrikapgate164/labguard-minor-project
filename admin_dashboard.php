@@ -69,23 +69,26 @@ if ($params) {
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Admin Dashboard</title>
 	<link rel="stylesheet" href="assets/css/style.css" />
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+	
+	
 </head>
 
-<body style="background-color: #7c3aed;">
+<body style="background-color: #e6e4ebff;">
 	<?php render_navbar(); ?>
 	<div class="container">
 		<div class="header">
 
-			<div class="container,container-fluid" style="background:#05e649; border-radius:20px; padding-left: 25px; display: grid;
+			<div class="container,container-fluid" style="background:#05e649; border-radius:0 40px 0 40px; padding-left: 25px; display: grid;
 margin-left: 1px; width:1500px; margin-right: 1px;
 ">
 				<h1 style="color: white;">Dashboard</h1>
-				<p style="color: white;">Welcome back,Ass. Prof. <?= htmlspecialchars($admin['full_name']) ?> you can solve lab issues here !</p>
+				<p style="color: white; margin-top:0px;">Welcome back,Ass. Prof. <?= htmlspecialchars($admin['full_name']) ?> you can solve lab issues here !</p>
 			</div>
 		</div>
 
 		<div class="grid">
-			<div class="card">
+			<div class="card" style="border-radius:0 0 30px 30px;">
 				<div style="display:flex; align-items:center; justify-content:space-between;">
 					<div>
 						<div class="label">Total Reports</div>
@@ -94,7 +97,7 @@ margin-left: 1px; width:1500px; margin-right: 1px;
 					<span class="badge verified">All</span>
 				</div>
 			</div>
-			<div class="card">
+			<div class="card" style="border-radius:0 0 30px 30px;">
 				<div style="display:flex; align-items:center; justify-content:space-between;">
 					<div>
 						<div class="label">Pending</div>
@@ -103,7 +106,7 @@ margin-left: 1px; width:1500px; margin-right: 1px;
 					<span class="badge pending">Pending</span>
 				</div>
 			</div>
-			<div class="card">
+			<div class="card" style="border-radius:0 0 30px 30px;">
 				<div style="display:flex; align-items:center; justify-content:space-between;">
 					<div>
 						<div class="label">Verified</div>
@@ -112,7 +115,7 @@ margin-left: 1px; width:1500px; margin-right: 1px;
 					<span class="badge verified">Verified</span>
 				</div>
 			</div>
-			<div class="card">
+			<div class="card" style="border-radius:0 0 30px 30px;">
 				<div style="display:flex; align-items:center; justify-content:space-between;">
 					<div>
 						<div class="label">Solved</div>
@@ -137,14 +140,14 @@ margin-left: 1px; width:1500px; margin-right: 1px;
 		</div> -->
 
 		<div class="card">
-			<h3>Reported Problems</h3>
+			<h3><i class="fas fa-exclamation-circle"></i>  Reported Problems :-</h3><hr>
 			<table class="table">
 				<tr>
 					<th>ID</th>
-					<th>Student</th>
-					<th>Lab</th>
+					<th>Student Name</th>
+					<th>Lab Name</th>
 					<th>Equipment</th>
-					<th>Issue</th>
+					<th>Issue Type</th>
 					<th>Status</th>
 					<th>Image</th>
 					<th>Created</th>
@@ -152,7 +155,7 @@ margin-left: 1px; width:1500px; margin-right: 1px;
 				</tr>
 				<?php foreach ($reports as $r): ?>
 					<tr>
-						<td>#<?= (int)$r['id'] ?></td>
+						<td><?= (int)$r['id'] ?></td>
 						<td><?= htmlspecialchars($r['student_name']) ?></td>
 						<td><?= htmlspecialchars($r['lab_name']) ?></td>
 						<td><?= htmlspecialchars($r['equipment']) ?></td>

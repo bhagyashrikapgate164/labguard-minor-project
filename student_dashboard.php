@@ -40,30 +40,37 @@ if ($res = $conn->query("SELECT COUNT(*) FROM problems WHERE student_id=".(int)$
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Student Dashboard</title>
 	<link rel="stylesheet" href="assets/css/style.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
-<body>
+<body style="background-color: #ebf5f3ff;">
 	<?php render_navbar(); ?>
-            <div class="container,container-fluid" style="background:#05e649; border-radius:20px; padding-left: 25px; display: grid;
-margin: 25px;
+            <div class="container,container-fluid" style="background: #1ccf63ff; border-radius:0 0 30px 30px; padding-left: 25px; display: grid;
+                  margin: 20px 10px 20px 10px; height:115px;
 
 ">
-                   <h1 style="color: white;">  Dashboard</h1>  <p style="color: white;">Welcome, <?= htmlspecialchars($student['full_name']) ?> you can report lab issues here !</p>
+                   <h1 style="color: white; margin-bottom:1px;"><i class="fas fa-tachometer-alt"></i> Dashboard</h1>  <p style="color:  white; margin-top:0px;">Welcome, <?= htmlspecialchars($student['full_name']) ?> you can report lab issues here !</p>
+                        
+			  
+
+			
 			</div>
+
 							
 			
 	
 
 		<div class="grid" style="display: flex; gap:15px; justify-content:center; justify-content:space-around; ">
-			<div class="card" style= " background:#07f33a; width:375px; display:flex; ">
+			<div class="card" style= " background:#07f33a; width:375px; display:flex;  border-radius:0 50px 0 50px;">
 				<div style="display:flex; align-items:center; justify-content:space-between;" >
 					<div style="background-color: #07f33a;">
-						<div class="label" class="container " style="color: white;"><h2>My Reports</h2></div>
+						<div class="label" class="container " style="color: white; "><h2>My Reports</h2>
+					    </div>
 						<div style="font-size:30px; font-weight:900;"><?= $stat_my_total ?></div>
 					</div>
 					<span class="badge verified" style="position: relative; top:40px; left:140px; font-size:20px; color:white; background-color:blueviolet;"><b>Total</b></span>
 				</div>
 			</div>
-			<div class="card" style= " background:#07f33a; width:375px; display:flex; ">
+			<div class="card" style= " background: #07f33a; width:375px; display:flex;  border-radius:0 50px 0 50px;">
 
 				<div style="display:flex; align-items:center; justify-content:space-between;
 ">
@@ -74,7 +81,7 @@ margin: 25px;
 					<span class="badge pending" style="position: relative; top:40px; left:150px; font-size:20px;">Pending</span>
 				</div>
 			</div>
-			<div class="card" style= " background:#07f33a; width:375px; display:flex; ">
+			<div class="card" style= " background:#07f33a; width:375px; display:flex;  border-radius:0 50px 0 50px; ">
 				<div style="display:flex; align-items:center; justify-content:space-between;">
 					<div>
 						<div class="label" style="color: white;"><h2>Solved</h2></div>
@@ -86,19 +93,19 @@ margin: 25px;
 		</div>
 
 		<div class="grid">
-			<div class="card" style="grid-column:span 6;">
-				<h3>Lab Information</h3>
+			<div class="card" style="grid-column:span 6; ">
+				<h3><i class="fas fa-shield-alt icon-large text-primary"></i> Lab Information :-</h3><hr>
 				<table class="table">
-					<tr><th>Lab</th><th>Room</th></tr>
+					<tr><th>Lab Name</th><th>Room No.</th></tr>
 					<?php foreach ($labs as $l): ?>
 						<tr><td><?= htmlspecialchars($l['lab_name']) ?></td><td><?= htmlspecialchars($l['room'] ?? '') ?></td></tr>
 					<?php endforeach; ?>
 				</table>
 			</div>
 			<div class="card" style="grid-column:span 6;">
-				<h3>Faculty Information</h3>
+				<h3><i class="fas fa-info-circle"></i> Faculty Information :-</h3><hr>
 				<table class="table">
-					<tr><th>Name</th><th>Email</th></tr>
+					<tr><th>Faculty Name</th><th>Email</th></tr>
 					<?php foreach ($faculty as $f): ?>
 						<tr><td><?= htmlspecialchars($f['full_name']) ?></td><td><?= htmlspecialchars($f['email'] ?? '') ?></td></tr>
 					<?php endforeach; ?>
@@ -107,11 +114,11 @@ margin: 25px;
 		</div>
 
 		<div class="card">
-			<h3>Report a Problem</h3>
+			<h3><i class="fas fa-exclamation-triangle"></i> Report a Problem :-</h3><hr>
 			<form method="post" action="submit_report.php" enctype="multipart/form-data">
 				<div class="form-row">
 					<div>
-						<label class="label" for="lab_name">Lab</label>
+						<label class="label" for="lab_name">Lab Name</label>
 						<input class="input" type="text" id="lab_name" name="lab_name" list="lablist" required />
 						<datalist id="lablist">
 							<?php foreach ($labs as $l): ?><option value="<?= htmlspecialchars($l['lab_name']) ?>"><?php endforeach; ?>
@@ -146,12 +153,12 @@ margin: 25px;
 		</div>
 
 		<div class="card">
-			<h3>My Reports</h3>
+			<h3><i class="fas fa-file-alt"></i> My Reports :-</h3><hr>
 			<table class="table">
-				<tr><th>ID</th><th>Lab</th><th>Equipment</th><th>Issue</th><th>Status</th><th>Image</th><th>Created</th></tr>
+				<tr><th>ID</th><th>Lab Name</th><th>Equipment</th><th>Issue Type</th><th>Status</th><th>Image</th><th>Created</th><th>Created</th></tr>
 				<?php foreach ($my_reports as $r): ?>
 					<tr>
-						<td>#<?= (int)$r['id'] ?></td>
+						<td><?= (int)$r['id'] ?></td>
 						<td><?= htmlspecialchars($r['lab_name']) ?></td>
 						<td><?= htmlspecialchars($r['equipment']) ?></td>
 						<td><?= htmlspecialchars($r['issue_type']) ?></td>
@@ -165,7 +172,13 @@ margin: 25px;
 								-
 							<?php endif; ?>
 						</td>
-						<td><?= htmlspecialchars($r['created_at']) ?></td>
+						 <td><?= htmlspecialchars($r['created_at']) ?></td>
+
+						echo "<td>
+    <a class='btn btn-edit' href='edit_report.php?id=<?php echo $row['id']; ?>'>Edit</a>
+    <a class='btn btn-delete' href='delete_report.php?id=<?php echo $row['id']; ?>'>Delete</a>
+                         </td>";
+
 					</tr>
 				<?php endforeach; ?>
 			</table>
