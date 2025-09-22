@@ -48,28 +48,78 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	<title>Student Login</title>
 	<link rel="stylesheet" href="assets/css/style.css" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+
+        .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* pura screen height */
+    background: #f0f0f0; /* optional background */
+}
+
+.card {
+    background: #fff;
+    padding: 30px 25px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 420px;
+    text-align: center; 
+}
+
+#s {
+    margin-bottom: 20px; 
+    text-align: center;
+    color: #333;
+}
+
+#b{
+    display: flex;
+    justify-content: center;
+   
+}
+input[type="text"],
+input[type="password"] {
+    border-radius: 20px; 
+    border: 1px solid #2e9402ff; 
+    padding: 10px; 
+    outline: none;  
+    font-size: 15px;
+    width: 80%; 
+    box-sizing: border-box;
+}
+ 
+       
+       
+    
+    </style>
 	
 </head>
 
 <body style="background-color: #f2eefaff;">
 	<?php render_navbar(); ?>
 	<div class="container">
-		<div class="card" style="max-width:520px; margin:24px auto;">
-			<h2 style="margin-top:0; ">Student Login</h2>
+		<div class="card" style="max-width:520px; margin:24px auto; text-align:center;">
+			
+                <h1 id="s" ><i class="fas fa-user-graduate"></i> Student Login</h1>
+            
 			<?php if (!empty($error)): ?><p style="color:#b00020; margin-top:0;"><?= htmlspecialchars($error) ?></p><?php endif; ?>
 
     <form method="post">
-        <label class="label" for="username">Username</label>
+        <label class="label" for="username"><h3>Username</h3></label>
         <input type="text" name="username" id="username" required>
 
-        <label class="label" for="password" style="margin-top:12px;">Password</label>
+        <label class="label" for="password" style="margin-top:12px;"><h3>Password</h3></label>
         <input type="password" name="password" id="password" required>
 
-        <div style="margin-top:12px; display:flex; gap:8px;">
-            <button class="btn" type="submit">Login</button>
+        <div id="b" style="margin-top:12px; display:flex; gap:8px; ">
+            <button class="btn" type="submit" >Login</button>
             <a class="btn secondary" href="index.php">Cancel</a>
         </div>
     </form>
+   </div>
+</div>
 
 	</body>
 	</html>

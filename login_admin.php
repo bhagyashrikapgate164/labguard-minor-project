@@ -28,19 +28,66 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	<title>Admin Login</title> 
 	<link rel="stylesheet" href="assets/css/style.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+	<style>
+		 .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* pura screen height */
+    background: #f0f0f0; /* optional background */
+}
+
+.card {
+    background: #fff;
+    padding: 30px 25px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 420px;
+    text-align: center; 
+}
+
+#s {
+    margin-bottom: 20px; 
+    text-align: center;
+    color: #333;
+}
+
+#b{
+    display: flex;
+    justify-content: center;
+   
+}
+input[type="text"],
+input[type="password"] {
+    border-radius: 20px; 
+    border: 1px solid #2e9402ff; 
+    padding: 10px; 
+    outline: none;  
+    font-size: 15px;
+    width: 80%; 
+    box-sizing: border-box;
+}
+ 
+       
+       
+    
+    
+	
+	</style>
 </head>
 <body style="background-color: #f2fcf8ff;">
 	 <?php render_navbar(); ?> 
 	<div class="container">
 		<div class="card" style="max-width:520px; margin:24px auto;">
-			<h3 style="margin-top:0;">Admin Login</h3>
+			<h1 style="margin-top:0;"><i class="fas fa-user-cog"></i> Admin Login</h1>
 			<?php if (!empty($error)): ?><p style="color:#b00020; margin-top:0;"><?= htmlspecialchars($error) ?></p><?php endif; ?>
 			<form method="post">
-				<label class="label" for="full_name">Full name</label>
+				<label class="label" for="full_name"><h3>Full name</h3></label>
 				<input class="input" type="text" id="full_name" name="full_name" required />
-				<label class="label" for="password">Password</label>
+				<label class="label" for="password"><h3>Password</h3></label>
 				<input class="input" type="password" id="password" name="password" required />
-				<div style="margin-top:12px; display:flex; gap:8px;">
+				<div id="b" style="margin-top:12px; display:flex; gap:8px;">
 					<button class="btn" type="submit">Login</button>
 					<a class="btn secondary" href="index.php">Cancel</a>
 				</div>
