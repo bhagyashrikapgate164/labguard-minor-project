@@ -2,6 +2,8 @@
 require_once __DIR__ . '/includes/auth.php';
 $conn = get_mysqli_connection();
 
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$student_id = isset($_POST['student_id']) ? (int)$_POST['student_id'] : 0;
 	$stmt = $conn->prepare('SELECT id, full_name FROM student WHERE id = ?');
@@ -12,19 +14,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$stmt->close();
 	if ($found) {
 		$_SESSION['student'] = ['id' => $id, 'full_name' => $full_name];
-		header('Location: student_dashboard.php');
+	    header('Location:student_dashboard.php');
 		exit;
 	} else {
 		$error = 'Invalid selection';
 	}
+
 }
 
 $student = [];
-$res = $conn->query('SELECT id, full_name,username,email FROM student ORDER BY full_name');
+$res = $conn->query('SELECT id, full_name FROM student ORDER BY full_name');
 if ($res) {
 	$student = $res->fetch_all(MYSQLI_ASSOC);
 }
+
+
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 

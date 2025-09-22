@@ -28,7 +28,7 @@ if ($res = $conn->query("SELECT COUNT(*) FROM problems WHERE status='Solved'")) 
 
 $filter = $_GET['status'] ?? '';
 $params = [];
-$sql = 'SELECT p.id, p.lab_name, p.equipment, p.issue_type, p.status, p.image_path, p.created_at, s.full_name AS student_name FROM problems p JOIN student s ON s.id = p.student_id';
+$sql = 'SELECT p.id, p.lab_name, p.equipment, p.issue_type,p.description, p.status, p.image_path, p.created_at, s.full_name AS student_name FROM problems p JOIN student s ON s.id = p.student_id';
 if (in_array($filter, ['Pending', 'Verified', 'Solved'], true)) {
 	$sql .= ' WHERE p.status = ?';
 	$params[] = $filter;
@@ -40,18 +40,22 @@ if ($params) {
 	$stmt = $conn->prepare($sql);
 	$stmt->bind_param('s', $params[0]);
 	$stmt->execute();
-	$stmt->bind_result($id, $lab, $equip, $itype, $status, $img, $created, $student_name);
+	$stmt->bind_result($id, $lab, $equip, $itype,$description, $status, $img, $created, $student_name);
+	
 	while ($stmt->fetch()) {
 		$reports[] = [
+			
 			'id' => $id,
 			'lab_name' => $lab,
 			'equipment' => $equip,
 			'issue_type' => $itype,
+			'description' => $description,
 			'status' => $status,
 			'image_path' => $img,
 			'created_at' => $created,
 			'student_name' => $student_name,
 		];
+		
 	}
 	$stmt->close();
 } else {
@@ -70,8 +74,18 @@ if ($params) {
 	<title>Admin Dashboard</title>
 	<link rel="stylesheet" href="assets/css/style.css" />
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-	
-	
+	<style>
+		#R {
+			background-color: #07f33a;
+			transform: scale(1.0);
+			border-radius: 20px 20px 0 0;
+			height: 50px;
+			padding: 10px;
+			margin-top: 2px;
+		}
+	</style>
+
+
 </head>
 
 <body style="background-color: #e6e4ebff;">
@@ -140,26 +154,32 @@ margin-left: 1px; width:1500px; margin-right: 1px;
 		</div> -->
 
 		<div class="card">
-			<h3><i class="fas fa-exclamation-circle"></i>  Reported Problems :-</h3><hr>
+			<h3 id="R"><i class="fas fa-exclamation-circle"></i> Reported Problems :-</h3>
+			<hr>
 			<table class="table">
 				<tr>
-					<th>ID</th>
+					<th>sr No.</th>
 					<th>Student Name</th>
 					<th>Lab Name</th>
 					<th>Equipment</th>
 					<th>Issue Type</th>
+					<th>Description</th>
 					<th>Status</th>
 					<th>Image</th>
 					<th>Created</th>
 					<th>Actions</th>
 				</tr>
-				<?php foreach ($reports as $r): ?>
+				
+				<?php
+				   $sr = 1;
+				   foreach ($reports as $r): ?>
 					<tr>
-						<td><?= (int)$r['id'] ?></td>
+						<td><?= $sr ?></td>
 						<td><?= htmlspecialchars($r['student_name']) ?></td>
 						<td><?= htmlspecialchars($r['lab_name']) ?></td>
 						<td><?= htmlspecialchars($r['equipment']) ?></td>
 						<td><?= htmlspecialchars($r['issue_type']) ?></td>
+						<td><?= htmlspecialchars($r['description']) ?></td>
 						<td><span class="badge <?= strtolower($r['status']) ?>"><?= htmlspecialchars($r['status']) ?></span></td>
 						<td><?php if (!empty($r['image_path'])): ?><a href="<?= htmlspecialchars($r['image_path']) ?>" target="_blank">View</a><?php else: ?>-<?php endif; ?></td>
 						<td><?= htmlspecialchars($r['created_at']) ?></td>
@@ -179,7 +199,9 @@ margin-left: 1px; width:1500px; margin-right: 1px;
 							<?php endif; ?>
 						</td>
 					</tr>
-				<?php endforeach; ?>
+				<?php 
+				$sr++;
+			endforeach; ?>
 			</table>
 		</div>
 	</div>

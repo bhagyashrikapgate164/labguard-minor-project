@@ -8,7 +8,7 @@ function get_mysqli_connection(): mysqli {
 	}
 
 	// Connect without selecting DB first to avoid exceptions for missing DB
-	$conn = @new mysqli(DB_HOST, DB_USER, DB_PASS);
+	$conn = @new mysqli(DB_HOST, DB_USER, DB_PASS,DB_NAME);
 	if ($conn->connect_error) {
 		http_response_code(500);
 		echo 'Database connection failed.';
