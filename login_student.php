@@ -5,27 +5,30 @@ $conn = get_mysqli_connection();
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     $username = trim($_POST['username']);
     $password = $_POST['password'];
 
     if ($username && $password) {
-        $stmt = $conn->prepare("SELECT id, full_name, password FROM student WHERE username = ?");
+        $stmt = $conn->prepare("SELECT student_id, full_name, password FROM student WHERE username = ?");
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $stmt->store_result();
 
         if ($stmt->num_rows === 1) {
-            $stmt->bind_result($id, $full_name, $hashed_password);
+            $stmt->bind_result($student_id, $full_name, $hashed_password);
             $found=$stmt->fetch();
 			$stmt->close();
 
             if ($password === $hashed_password || password_verify($password, $hashed_password)) {
                 // Login success
-                $_SESSION['student_id'] = $id;
-                $_SESSION['student_name'] = $full_name;
-				$_SESSION['student'] = ['password' => $password, 'full_name' => $full_name];
-                header("Location: student_dashboard.php");
-                exit;
+                $_SESSION['student'] = [
+               'student_id' => $student_id,  
+               'full_name'  => $full_name
+            ];
+    
+            header("Location: student_dashboard.php");
+            exit;
             } else {
                 $error = "Invalid password!";
             }
@@ -36,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "Please enter both username and password!";
     }
 }
+
 ?>
 
 
@@ -54,8 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh; /* pura screen height */
-    background: #f0f0f0; /* optional background */
+    height: 100vh; 
+    background: #f0f0f0; 
 }
 
 .card {
@@ -120,8 +124,11 @@ input[type="password"] {
     </form>
    </div>
 </div>
-
-	</body>
+</body>
 	</html>
 			
+
+
+
+    
 			   

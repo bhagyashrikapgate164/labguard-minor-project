@@ -1,20 +1,27 @@
 <?php
+
+
+
 require_once __DIR__ . '/includes/auth.php';
 ensure_student_authenticated();
 $conn = get_mysqli_connection();
 $student = current_student();
+
+
+
+
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 	header('Location: student_dashboard.php');
 	exit;
 }
 
-$lab_name = trim($_POST['lab_name'] ?? '');
+$room = trim($_POST['room'] ?? '');
 $equipment = trim($_POST['equipment'] ?? '');
 $issue_type = trim($_POST['issue_type'] ?? '');
 $description = trim($_POST['description'] ?? '');
 
-if ($lab_name === '' || $equipment === '' || $issue_type === '' || $description === '') {
+if ($room === '' || $equipment === '' || $issue_type === '' || $description === '') {
 	header('Location: student_dashboard.php');
 	exit;
 }
@@ -48,10 +55,20 @@ if (!empty($_FILES['image']['name'])) {
 }
 
 done:
-$stmt = $conn->prepare('INSERT INTO problems (student_id, lab_name, equipment, issue_type, description, image_path) VALUES (?, ?, ?, ?, ?, ?)');
-$stmt->bind_param('isssss', $student['id'], $lab_name, $equipment, $issue_type, $description, $image_path);
-$stmt->execute();
+$stmt = $conn->prepare('INSERT INTO problems (student_id, room, equipment, issue_type, description, image_path) VALUES (?, ?, ?, ?, ?, ?)');
+$stmt->bind_param('isssss', $student['student_id'], $room, $equipment, $issue_type, $description, $image_path);
+
+
+
+if ($stmt->execute()) {
+    header('Location: student_dashboard.php');
+    exit;
+}else {
+    echo "Error: " . $stmt->error;
+}
+
 $stmt->close();
 
-header('Location: student_dashboard.php');
-exit;
+
+
+

@@ -28,7 +28,7 @@ if ($res = $conn->query("SELECT COUNT(*) FROM problems WHERE status='Solved'")) 
 
 $filter = $_GET['status'] ?? '';
 $params = [];
-$sql = 'SELECT p.id, p.lab_name, p.equipment, p.issue_type,p.description, p.status, p.image_path, p.created_at, s.full_name AS student_name FROM problems p JOIN student s ON s.id = p.student_id';
+$sql = 'SELECT p.id, p.room, p.equipment, p.issue_type,p.description, p.status, p.image_path, p.created_at, s.full_name AS student_name FROM problems p JOIN student s ON s.student_id = p.student_id';
 if (in_array($filter, ['Pending', 'Verified', 'Solved'], true)) {
 	$sql .= ' WHERE p.status = ?';
 	$params[] = $filter;
@@ -40,13 +40,13 @@ if ($params) {
 	$stmt = $conn->prepare($sql);
 	$stmt->bind_param('s', $params[0]);
 	$stmt->execute();
-	$stmt->bind_result($id, $lab, $equip, $itype,$description, $status, $img, $created, $student_name);
+	$stmt->bind_result($id, $room, $equip, $itype,$description, $status, $img, $created, $student_name);
 	
 	while ($stmt->fetch()) {
 		$reports[] = [
 			
 			'id' => $id,
-			'lab_name' => $lab,
+			'room' => $room,
 			'equipment' => $equip,
 			'issue_type' => $itype,
 			'description' => $description,
@@ -140,19 +140,6 @@ margin-left: 1px; width:1500px; margin-right: 1px;
 			</div>
 		</div>
 
-		<!-- <div class="card">
-			<form method="get" style="display:flex; gap:8px; align-items:center;">
-				<label for="status">Filter</label>
-				<select id="status" name="status">
-					<option value="">All</option>
-					<option <?= $filter === 'Pending' ? 'selected' : '' ?>>Pending</option>
-					<option <?= $filter === 'Verified' ? 'selected' : '' ?>>Verified</option>
-					<option <?= $filter === 'Solved' ? 'selected' : '' ?>>Solved</option>
-				</select>
-				<button class="btn small" type="submit">Apply</button>
-			</form>
-		</div> -->
-
 		<div class="card">
 			<h3 id="R"><i class="fas fa-exclamation-circle"></i> Reported Problems :-</h3>
 			<hr>
@@ -160,7 +147,7 @@ margin-left: 1px; width:1500px; margin-right: 1px;
 				<tr>
 					<th>sr No.</th>
 					<th>Student Name</th>
-					<th>Lab Name</th>
+					<th>Room No.</th>
 					<th>Equipment</th>
 					<th>Issue Type</th>
 					<th>Description</th>
@@ -176,7 +163,7 @@ margin-left: 1px; width:1500px; margin-right: 1px;
 					<tr>
 						<td><?= $sr ?></td>
 						<td><?= htmlspecialchars($r['student_name']) ?></td>
-						<td><?= htmlspecialchars($r['lab_name']) ?></td>
+						<td><?= htmlspecialchars($r['room']) ?></td>
 						<td><?= htmlspecialchars($r['equipment']) ?></td>
 						<td><?= htmlspecialchars($r['issue_type']) ?></td>
 						<td><?= htmlspecialchars($r['description']) ?></td>

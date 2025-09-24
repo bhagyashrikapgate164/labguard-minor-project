@@ -33,8 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh; /* pura screen height */
-    background: #f0f0f0; /* optional background */
+    height: 100vh;
+    background: #f0f0f0; 
 }
 
 .card {

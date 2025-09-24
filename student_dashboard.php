@@ -15,16 +15,17 @@ if ($res = $conn->query('SELECT full_name, email FROM faculty ORDER BY full_name
 }
 
 $my_reports = [];
-$stmt = $conn->prepare('SELECT id, lab_name, equipment, issue_type,description, status, image_path, created_at FROM problems WHERE student_id = ? ORDER BY created_at DESC');
-$stmt->bind_param('i', $student['id']);
+$stmt = $conn->prepare('SELECT student_id, room, equipment, issue_type,description, status, image_path, created_at FROM problems WHERE student_id = ? ORDER BY created_at DESC');
+$stmt->bind_param('i', $student['student_id']);
 $stmt->execute();
-$stmt->bind_result($rid, $rlab, $req, $rtype, $description, $rstatus, $rimg, $rcreated);
+$stmt->bind_result($rid, $rroom, $req, $rtype, $description, $rstatus, $rimg, $rcreated);
+
 $sr = 1;
 while ($stmt->fetch()) {
 	$my_reports[] = [
 		'sr No.' => $sr,
 		'id' => $rid,
-		'lab_name' => $rlab,
+		'room' => $rroom,
 		'equipment' => $req,
 		'issue_type' => $rtype,
 		'description' => $description,
@@ -36,19 +37,20 @@ while ($stmt->fetch()) {
 }
 $stmt->close();
 
+
 // Quick stats
 $stat_my_total = 0;
 $stat_my_pending = 0;
 $stat_my_solved = 0;
-if ($res = $conn->query('SELECT COUNT(*) FROM problems WHERE student_id=' . (int)$student['id'])) {
+if ($res = $conn->query('SELECT COUNT(*) FROM problems WHERE student_id=' . (int)$student['student_id'])) {
 	$row = $res->fetch_row();
 	$stat_my_total = (int)$row[0];
 }
-if ($res = $conn->query("SELECT COUNT(*) FROM problems WHERE student_id=" . (int)$student['id'] . " AND status='Pending'")) {
+if ($res = $conn->query("SELECT COUNT(*) FROM problems WHERE student_id=" . (int)$student['student_id'] . " AND status='Pending'")) {
 	$row = $res->fetch_row();
 	$stat_my_pending = (int)$row[0];
 }
-if ($res = $conn->query("SELECT COUNT(*) FROM problems WHERE student_id=" . (int)$student['id'] . " AND status='Solved'")) {
+if ($res = $conn->query("SELECT COUNT(*) FROM problems WHERE student_id=" . (int)$student['student_id'] . " AND status='Solved'")) {
 	$row = $res->fetch_row();
 	$stat_my_solved = (int)$row[0];
 }
@@ -182,10 +184,10 @@ if ($res = $conn->query("SELECT COUNT(*) FROM problems WHERE student_id=" . (int
 		<form method="post" action="submit_report.php" enctype="multipart/form-data">
 			<div class="form-row">
 				<div>
-					<label class="label" for="lab_name">Lab Name</label>
-					<input class="input" type="text" id="lab_name" name="lab_name" list="lablist" required />
+					<label class="label" for="room">Room No.</label>
+					<input class="input" type="text" id="room" name="room" list="lablist" required />
 					<datalist id="lablist">
-						<?php foreach ($labs as $l): ?><option value="<?= htmlspecialchars($l['lab_name']) ?>"><?php endforeach; ?>
+						<?php foreach ($labs as $l): ?><option value="<?= htmlspecialchars($l['room']) ?>"><?php endforeach; ?>
 					</datalist>
 				</div>
 				<div>
@@ -222,7 +224,7 @@ if ($res = $conn->query("SELECT COUNT(*) FROM problems WHERE student_id=" . (int
 		<table class="table">
 			<tr>
 				<th>Sr No.</th>
-				<th>Lab Name</th>
+				<th>Room no.</th>
 				<th>Equipment</th>
 				<th>Issue Type</th>
 				<th>Description</th>
@@ -233,7 +235,7 @@ if ($res = $conn->query("SELECT COUNT(*) FROM problems WHERE student_id=" . (int
 			<?php foreach ($my_reports as $r): ?>
 				<tr>
 					<td><?= (int)$r['sr No.'] ?></td>
-					<td><?= htmlspecialchars($r['lab_name']) ?></td>
+					<td><?= htmlspecialchars($r['room']) ?></td>
 					<td><?= htmlspecialchars($r['equipment']) ?></td>
 					<td><?= htmlspecialchars($r['issue_type']) ?></td>
 					<td><?= htmlspecialchars($r['description']) ?></td>
