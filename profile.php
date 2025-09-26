@@ -137,12 +137,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile']) && 
 						<td><b><?= htmlspecialchars(($student ? $student['full_name'] : $admin['full_name'])) ?></b></td>
 					</tr>
 					<?php if ($student): ?>
-						<tr><th>Roll No :-</th><td><?= htmlspecialchars($student['rollno']) ?></td></tr>
-						<tr><th>Branch :-</th><td><?= htmlspecialchars($student['branch']) ?></td></tr>
-						<tr><th>Semester :-</th><td><?= htmlspecialchars($student['sem']) ?></td></tr>
-						<tr><th>Section :-</th><td><?= htmlspecialchars($student['section']) ?></td></tr>
-						<tr><th>Contact No. :-</th><td><?= htmlspecialchars($student['contact']) ?></td></tr>
-						<tr><th>Email :-</th><td><?= htmlspecialchars($student['email']) ?></td></tr>
+						<tr><th>Roll No :-</th><td><b><?= htmlspecialchars($student['rollno']) ?></b></td></tr>
+						<tr><th>Branch :-</th><td><b><?= htmlspecialchars($student['branch']) ?></b></td></tr>
+						<tr><th>Semester :-</th><td><b><?= htmlspecialchars($student['sem']) ?></b></td></tr>
+						<tr><th>Section :-</th><td><b><?= htmlspecialchars($student['section']) ?></b></td></tr>
+						<tr><th>Contact No. :-</th><td><b><?= htmlspecialchars($student['contact']) ?></b></td></tr>
+						<tr><th>Email :-</th><td><b><?= htmlspecialchars($student['email']) ?></b></td></tr>
 					<?php endif; ?>
 				</table>
 
