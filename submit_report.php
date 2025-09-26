@@ -1,14 +1,9 @@
 <?php
 
-
-
 require_once __DIR__ . '/includes/auth.php';
 ensure_student_authenticated();
 $conn = get_mysqli_connection();
 $student = current_student();
-
-
-
 
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -57,7 +52,6 @@ if (!empty($_FILES['image']['name'])) {
 done:
 $stmt = $conn->prepare('INSERT INTO problems (student_id, room, equipment, issue_type, description, image_path) VALUES (?, ?, ?, ?, ?, ?)');
 $stmt->bind_param('isssss', $student['student_id'], $room, $equipment, $issue_type, $description, $image_path);
-
 
 
 if ($stmt->execute()) {

@@ -4,7 +4,6 @@ ensure_student_authenticated();
 $conn = get_mysqli_connection();
 $student = current_student();
 
-
 $labs = [];
 if ($res = $conn->query('SELECT lab_name, room FROM labs ORDER BY lab_name')) {
 	$labs = $res->fetch_all(MYSQLI_ASSOC);
@@ -36,7 +35,6 @@ while ($stmt->fetch()) {
 	$sr++;
 }
 $stmt->close();
-
 
 // Quick stats
 $stat_my_total = 0;
@@ -84,7 +82,6 @@ if ($res = $conn->query("SELECT COUNT(*) FROM problems WHERE student_id=" . (int
 		}
 	</style>
 
-
 </head>
 
 <body style="background-color: #ebf5f3ff;">
@@ -97,13 +94,7 @@ if ($res = $conn->query("SELECT COUNT(*) FROM problems WHERE student_id=" . (int
 		<p style="color:  white; margin-top:0px;">Welcome, <?= htmlspecialchars($student['full_name']) ?> you can report lab issues here !</p>
 
 
-
-
 	</div>
-
-
-
-
 
 	<div class="grid" style="display: flex; gap:15px; justify-content:center; justify-content:space-around; ">
 		<div class="card" style=" background:#07f33a; width:375px; display:flex;  border-radius:0 50px 0 50px;">
@@ -119,8 +110,7 @@ if ($res = $conn->query("SELECT COUNT(*) FROM problems WHERE student_id=" . (int
 		</div>
 		<div class="card" style=" background: #07f33a; width:375px; display:flex;  border-radius:0 50px 0 50px;">
 
-			<div style="display:flex; align-items:center; justify-content:space-between;
-">
+			<div style="display:flex; align-items:center; justify-content:space-between;">
 				<div>
 					<div class="label" style="color: white;">
 						<h2>Pending</h2>

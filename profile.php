@@ -1,23 +1,56 @@
 <?php
 require_once __DIR__ . '/includes/auth.php';
+$conn = get_mysqli_connection();
+
 $student = current_student();
-$admin = current_admin();
+$admin   = current_admin();
+
 if (!$student && !$admin) {
-	header('Location: index.php');
-	exit;
+    header('Location: index.php');
+    exit;
 }
 
-// $conn = mysqli_connect("localhost", "root", "", "labguard");
-// $query = "SELECT  email FROM student WHERE email = '$email'";
-// $student = mysqli_fetch_assoc(mysqli_query($conn, $query));
+$success = '';
+$error   = '';
 
+// Agar student apna profile update kare
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile']) && $student) {
+    $name    = trim($_POST['full_name']);
+    $rollno  = trim($_POST['rollno']);
+    $branch  = trim($_POST['branch']);
+    $sem     = trim($_POST['sem']);
+    $section = trim($_POST['section']);
+    $contact = trim($_POST['contact']);
+    $email   = trim($_POST['email']);
 
-
-
+    if ($name && $rollno && $branch && $sem && $section && $contact && $email) {
+        $stmt = $conn->prepare("UPDATE student 
+                                SET full_name=?, rollno=?, branch=?, sem=?, section=?, contact=?, email=? 
+                                WHERE student_id=?");
+        $stmt->bind_param("sssssssi", $name, $rollno, $branch, $sem, $section, $contact, $email, $student['student_id']);
+        if ($stmt->execute()) {
+            $success = "Profile updated successfully!";
+            // Updated data ko current session ke student array me merge kar dete hain
+            $student = array_merge($student, [
+                'full_name' => $name,
+                'rollno'    => $rollno,
+                'branch'    => $branch,
+                'sem'       => $sem,
+                'section'   => $section,
+                'contact'   => $contact,
+                'email'     => $email,
+            ]);
+        } else {
+            $error = "Error: " . $stmt->error;
+        }
+        $stmt->close();
+    } else {
+        $error = "Please fill all fields!";
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -25,15 +58,14 @@ if (!$student && !$admin) {
 	<link rel="stylesheet" href="assets/css/style.css" />
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
-
 <body style="background-color: #f2fafaff;">
 	<?php render_navbar(); ?>
-	<div class="container" style="margin-top:20px; ">
+	<div class="container" style="margin-top:20px;">
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-12">
 					<div class="page-header" style="margin-top:21px; padding-bottom:20px;">
-						<div class="container" style="background-color:#05e649; border-radius:0 40px 0 40px; padding-left: 40px; display: grid; margin:5px; line-height:8px;  ">
+						<div class="container" style="background-color:#05e649; border-radius:0 40px 0 40px; padding-left: 40px; display: grid; margin:5px; line-height:8px;">
 							<h1 style="color: white;"><i class="fas fa-user-edit me-3"></i> My Profile</h1>
 							<p style="color: white; margin-top:0;">Manage your account information and settings</p>
 						</div>
@@ -41,33 +73,66 @@ if (!$student && !$admin) {
 				</div>
 			</div>
 
-
-
-			<div class="card">
+			<div class="card" style="padding:20px;">
 				<h2>📜 Profile Information 📜</h2>
 				<hr>
+
+				<?php if ($success): ?>
+					<p style="color:green;"><?= $success ?></p>
+				<?php endif; ?>
+				<?php if ($error): ?>
+					<p style="color:red;"><?= $error ?></p>
+				<?php endif; ?>
+
 				<table class="table">
 					<tr>
-						<th><b>Role :-</b></th>
+						<th>Role :-</th>
 						<td><b><?= $student ? 'Student' : 'Admin' ?></b></td>
 					</tr>
 					<tr>
-						<th><b>Full Name :-</b></th>
+						<th>Full Name :-</th>
 						<td><b><?= htmlspecialchars(($student ? $student['full_name'] : $admin['full_name'])) ?></b></td>
 					</tr>
-					<tr>
-						<!-- <th><b>Username :-</b></th>
-    <td><b>bhagyashri</b></td>
-</tr>
-<tr><th><b>Email :-</b></th><td><b>bhagyashrikapgate@gmail.com</b></td></tr>
-<tr><th><b>Role Number :-</b></th><td><b>A36</b></td></tr> -->
+					<?php if ($student): ?>
+						<tr><th>Roll No :-</th><td><?= htmlspecialchars($student['rollno']) ?></td></tr>
+						<tr><th>Branch :-</th><td><?= htmlspecialchars($student['branch']) ?></td></tr>
+						<tr><th>Semester :-</th><td><?= htmlspecialchars($student['sem']) ?></td></tr>
+						<tr><th>Section :-</th><td><?= htmlspecialchars($student['section']) ?></td></tr>
+						<tr><th>Contact :-</th><td><?= htmlspecialchars($student['contact']) ?></td></tr>
+						<tr><th>Email :-</th><td><?= htmlspecialchars($student['email']) ?></td></tr>
+					<?php endif; ?>
+				</table>
 
+				<?php if ($student): ?>
+				<hr>
+				<h3>✏️ Update Profile</h3>
+				<form method="POST">
+					<label>Full Name:</label>
+					<input type="text" name="full_name" value="<?= htmlspecialchars($student['full_name']) ?>"><br><br>
 
+					<label>Roll No:</label>
+					<input type="text" name="rollno" value="<?= htmlspecialchars($student['rollno']) ?>"><br><br>
 
+					<label>Branch:</label>
+					<input type="text" name="branch" value="<?= htmlspecialchars($student['branch']) ?>"><br><br>
 
+					<label>Semester:</label>
+					<input type="text" name="sem" value="<?= htmlspecialchars($student['sem']) ?>"><br><br>
 
+					<label>Section:</label>
+					<input type="text" name="section" value="<?= htmlspecialchars($student['section']) ?>"><br><br>
 
+					<label>Contact:</label>
+					<input type="text" name="contact" value="<?= htmlspecialchars($student['contact']) ?>"><br><br>
 
+					<label>Email:</label>
+					<input type="email" name="email" value="<?= htmlspecialchars($student['email']) ?>"><br><br>
+
+					<button type="submit" name="update_profile">Update Profile</button>
+				</form>
+				<?php endif; ?>
+			</div>
+		</div>
+	</div>
 </body>
-
 </html>
