@@ -141,7 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile']) && 
 						<tr><th>Branch :-</th><td><?= htmlspecialchars($student['branch']) ?></td></tr>
 						<tr><th>Semester :-</th><td><?= htmlspecialchars($student['sem']) ?></td></tr>
 						<tr><th>Section :-</th><td><?= htmlspecialchars($student['section']) ?></td></tr>
-						<tr><th>Contact :-</th><td><?= htmlspecialchars($student['contact']) ?></td></tr>
+						<tr><th>Contact No. :-</th><td><?= htmlspecialchars($student['contact']) ?></td></tr>
 						<tr><th>Email :-</th><td><?= htmlspecialchars($student['email']) ?></td></tr>
 					<?php endif; ?>
 				</table>
@@ -165,7 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile']) && 
 					<label>Section:</label>
 					<input type="text" name="section" value="<?= htmlspecialchars($student['section']) ?>"><br><br>
 
-					<label>Contact:</label>
+					<label>Contact No. :</label>
 					<input type="text" name="contact" value="<?= htmlspecialchars($student['contact']) ?>"><br><br>
 
 					<label>Email:</label>

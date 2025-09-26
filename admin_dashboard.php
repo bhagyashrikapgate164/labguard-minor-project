@@ -54,6 +54,7 @@ if ($params) {
 			'image_path' => $img,
 			'created_at' => $created,
 			'student_name' => $student_name,
+			
 		];
 		
 	}
@@ -64,6 +65,15 @@ if ($params) {
 		$reports = $res->fetch_all(MYSQLI_ASSOC);
 	}
 }
+$sql = "SELECT p.id, p.room, p.equipment, p.issue_type, p.description, p.status, p.image_path, p.created_at, 
+               s.student_id, s.full_name AS student_name
+        FROM problems p
+        JOIN student s ON p.student_id = s.student_id
+        ORDER BY p.created_at DESC";
+
+$res = $conn->query($sql);
+$reports = $res->fetch_all(MYSQLI_ASSOC);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -147,6 +157,7 @@ margin-left: 1px; width:1500px; margin-right: 1px;
 				<tr>
 					<th>sr No.</th>
 					<th>Student Name</th>
+					<th>Student Details</th>
 					<th>Room No.</th>
 					<th>Equipment</th>
 					<th>Issue Type</th>
@@ -163,6 +174,13 @@ margin-left: 1px; width:1500px; margin-right: 1px;
 					<tr>
 						<td><?= $sr ?></td>
 						<td><?= htmlspecialchars($r['student_name']) ?></td>
+						<td>
+                            <a href="student_details.php?id=<?= (int)$r['student_id'] ?>">
+                            <!-- <?= htmlspecialchars($r['student_name']) ?> -->
+							 student information
+                            </a>
+                        </td>
+
 						<td><?= htmlspecialchars($r['room']) ?></td>
 						<td><?= htmlspecialchars($r['equipment']) ?></td>
 						<td><?= htmlspecialchars($r['issue_type']) ?></td>
