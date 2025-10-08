@@ -199,8 +199,8 @@ if ($res = $conn->query("SELECT COUNT(*) FROM problems WHERE student_id=" . (int
 			</select>
 			<label class="label" for="description">Description</label>
 			<textarea id="description" name="description" rows="3" required></textarea>
-			<label class="label" for="image">Upload Image (optional, JPG/PNG)</label>
-			<input class="input" type="file" id="image" name="image" accept="image/jpeg,image/png" />
+			<label class="label" for="image" >Upload Image (optional, JPG/PNG)</label>
+			<input class="input" type="file" id="image" name="image" accept="image/jpeg,image/png" required />
 			<div class="help">Max 5MB</div>
 			<div style="margin-top:12px;">
 				<button class="btn" type="submit">Submit Report</button>

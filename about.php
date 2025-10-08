@@ -92,11 +92,13 @@ require_once __DIR__ . '/includes/auth.php';
                         <h2 class="mb-0"><i class="fas fa-info-circle me-2"></i>      Reporting Guidelines :   </h2>
                     </div>
                     <div class="card-body">
-                        <h4><i class="fas fa-exclamation-circle"></i>  Priority Levels :-</h4>
-                        <ul class="list-unstyled" style="list-style-type: none;">
-                            <li ><i  class="fas fa-circle text-danger me-2" style="color: red;"></i> <strong >High:</strong> Safety issues, equipment damage</li>
-                            <li><i class="fas fa-circle text-warning me-2" style="color: yellow;"></i> <strong >Medium:</strong> Functional problems, minor damage</li>
-                            <li><i class="fas fa-circle text-success me-2" style="color: green;"></i> <strong >Low:</strong> Minor issues, suggestions</li>
+                       
+                        <h4><i class="fas fa-list-alt"></i> Information about Incharge  :-</h4>
+                        <ul>
+                            <li>B-411 -> Ms. Ranjana Shende</li>
+                            <li>B-412 -> Mr.Ravindra Kale</li>
+                            <li>B-413 -> Ms.Pushpa Chutel</li>
+                            
                         </ul>
                         
                         <hr>
@@ -111,13 +113,19 @@ require_once __DIR__ . '/includes/auth.php';
                         </ul>
                         
                         <hr>
-                        
-                        <h4><i class="fas fa-clock"></i>  Response Time :-</h4>
-                        <ul class="list-unstyled" >
-                            <li ><strong style="color: #e74c3c;">High Priority:</strong> Within 2 hours</li>
-                            <li><strong style=" color: #f0ac19ff;">Medium Priority:</strong> Within 24 hours</li>
-                            <li><strong style="color: #27ae60;">Low Priority:</strong> Within 3 days</li>
+
+                         <h4><i class="fas fa-list-alt"></i> Team Labguard :-</h4>
+                        <ul>
+                            <li> Aryan Bawane</li>
+                            <li>Bhagyashri Kapgate</li>
+                            <li>Ayesha Yadav</li>
+                            <li>Awadhi Rao</li>
+                            <li>Bhavik Titarmare</li>
+                            <li>Aryan Ojha</li>
+                            <h5>Built With Passion 🔥</h5>
                         </ul>
+                        
+                        
                     </div>
                 </div>
                 
